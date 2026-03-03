@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Speedy Math Stairs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
+<script type="importmap">
+{
+  "imports": {
+    "rxjs": "https://esm.sh/rxjs@^7.8.2?conditions=es2015",
+    "rxjs/operators": "https://esm.sh/rxjs@^7.8.2/operators?conditions=es2015",
+    "rxjs/ajax": "https://esm.sh/rxjs@^7.8.2/ajax?conditions=es2015",
+    "rxjs/webSocket": "https://esm.sh/rxjs@^7.8.2/webSocket?conditions=es2015",
+    "rxjs/testing": "https://esm.sh/rxjs@^7.8.2/testing?conditions=es2015",
+    "rxjs/fetch": "https://esm.sh/rxjs@^7.8.2/fetch?conditions=es2015",
+    "@angular/compiler": "https://esm.sh/@angular/compiler@^21.1.4?external=rxjs",
+    "@angular/platform-browser": "https://esm.sh/@angular/platform-browser@^21.1.4?external=rxjs",
+    "@angular/core": "https://esm.sh/@angular/core@^21.1.4?external=rxjs"
+  }
+}
+</script>
+<style>
+  @keyframes zoom-in-fade {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .animate-zoom-in-fade {
+    animation: zoom-in-fade 0.5s ease-out forwards;
+  }
+
+  @keyframes firework-explode {
+    0% { transform: translate(0, 0) scale(0.5); opacity: 1; }
+    100% { transform: var(--transform-end); opacity: 0; }
+  }
+  .firework-star {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 2rem;
+    /* Emojis can sometimes be rendered differently, this can help */
+    text-shadow: 0 0 5px rgba(255,255,0,0.7); 
+    animation-name: firework-explode;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+  }
+</style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-slate-900 text-white">
+  <app-root></app-root>
+</body>
+</html>
