@@ -1,0 +1,65 @@
+<main class="min-h-screen w-full flex flex-col items-center justify-center p-4 font-mono text-center relative">
+  <button (click)="back.emit()" class="absolute top-4 left-4 bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-xl shadow-lg transform transition hover:scale-105">
+    ⬅️ BACK TO MENU
+  </button>
+
+  @switch (gameState()) {
+    @case ('reading') {
+      <div class="flex flex-col items-center justify-center w-full max-w-4xl relative">
+        <h1 class="text-5xl md:text-6xl font-bold text-purple-400 drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] mb-8 animate-bounce">READ THE STORY 📖</h1>
+        
+        <div class="bg-slate-800 p-8 md:p-12 rounded-3xl shadow-[0_0_30px_rgba(168,85,247,0.3)] w-full mb-8 text-left">
+          @for (paragraph of story()?.text; track $index) {
+            <p class="text-2xl md:text-3xl text-slate-200 mb-6 leading-relaxed">{{ paragraph }}</p>
+          }
+        </div>
+
+        <button (click)="startQuiz()" class="bg-purple-500 hover:bg-purple-600 text-white font-black py-4 px-8 rounded-2xl text-3xl transition-transform transform hover:scale-110 shadow-[0_0_20px_rgba(168,85,247,0.5)]">
+          I'M READY FOR THE QUIZ! 🧠
+        </button>
+      </div>
+    }
+
+    @case ('quiz') {
+      @if (currentQuestion(); as q) {
+        <div class="flex flex-col items-center justify-center w-full max-w-3xl relative">
+          <div class="w-full flex justify-between items-center mb-8 text-2xl">
+            <div class="px-4 py-2 rounded-lg bg-slate-700 font-bold text-purple-300">Question: {{ currentQuestionIndex() + 1 }} / {{ story()?.questions?.length }} ❓</div>
+            <div class="px-4 py-2 rounded-lg bg-slate-700 font-bold text-green-400">Score: {{ score() }} 🏆</div>
+          </div>
+          
+          <div class="bg-slate-800 p-8 rounded-3xl shadow-[0_0_30px_rgba(168,85,247,0.3)] w-full mb-8">
+            <p class="text-4xl md:text-5xl font-bold text-white mb-8">{{ q.question }}</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              @for (option of q.options; track $index) {
+                <button 
+                  (click)="selectAnswer(option)"
+                  [disabled]="showFeedback()"
+                  [class]="'py-4 px-6 rounded-xl text-2xl font-bold transition-all duration-300 transform hover:scale-105 shadow-lg ' + 
+                    (showFeedback() 
+                      ? (option === q.correctAnswer 
+                          ? 'bg-green-500 text-white scale-105 shadow-[0_0_20px_rgba(0,255,0,0.5)]' 
+                          : (option === selectedAnswer() ? 'bg-red-500 text-white opacity-50' : 'bg-slate-700 text-slate-400 opacity-50'))
+                      : 'bg-slate-700 hover:bg-slate-600 text-white')">
+                  {{ option }}
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    }
+
+    @case ('game-over') {
+      <div class="text-center bg-slate-800 p-12 rounded-3xl shadow-[0_0_50px_rgba(168,85,247,0.5)] relative z-10">
+        <h2 class="text-7xl font-black text-purple-400 mb-4 animate-bounce">QUIZ COMPLETE! 🎉</h2>
+        <p class="text-4xl mb-8 font-bold text-yellow-300">YOU GOT {{ score() }} OUT OF {{ story()?.questions?.length }} RIGHT! 🚀</p>
+        
+        <button (click)="startNewStory()" class="bg-purple-500 hover:bg-purple-600 text-white font-black py-6 px-12 rounded-2xl text-4xl transition-transform transform hover:scale-110 shadow-[0_0_20px_rgba(168,85,247,0.5)]">
+          READ ANOTHER STORY 📚
+        </button>
+      </div>
+    }
+  }
+</main>
